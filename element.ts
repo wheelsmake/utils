@@ -26,7 +26,7 @@ export function isInDocument(element :Element) :boolean{
 export function removeIndentText(textNode :Text) :void{
     textNode.textContent = textNode.textContent!.replace(/\n\s+/g, "");
 }
-export function isChild(element :HTMLElement, target :HTMLElement) :boolean{
+export function isChild(element :Element, target :Element) :boolean{
     const children = target.childNodes;
     for(let i = 0; i < children.length; i++) if(element === children[i]) return true;
     return false;
@@ -37,13 +37,13 @@ export function toHTML(HTML :string) :Node[]{
     ele.innerHTML = HTML;
     return getInnerNodes(ele);
 }
-export function getInnerNodes(el :Node | HTMLElement) :Node[]{
+export function getInnerNodes(el :Node | Element) :Node[]{
     var nodes :Node[] = [];
     for(let i = 0; i < el.childNodes.length; i++) nodes[i] = el.childNodes[i].cloneNode(true);
     return nodes;
 }
 //剥壳器
-export function hatch(element :HTMLElement, remove? :boolean) :Node[]{
+export function hatch(element :Element, remove? :boolean) :Node[]{
     //note:Nodelist类型会实时同步造成不稳定的for循环，必须转换为Node[]！
     const par = element.parentElement!, children :Node[] = Array.from(element.childNodes);
     for(let i = 0; i < children.length; i++) par.insertBefore(children[i], element);
@@ -51,11 +51,11 @@ export function hatch(element :HTMLElement, remove? :boolean) :Node[]{
     return children;
 }
 //最终渲染方法，老祖宗求你别出bug
-export function render(HTML :string | HTMLElement | HTMLCollection | HTMLElement[] | Node | NodeList | Node[], element :HTMLElement, insertAfter? :boolean, append? :boolean, disableDF? :boolean) :Node[]{
+export function render(HTML :string | Element | HTMLCollection | Element[] | Node | NodeList | Node[], element :Element, insertAfter? :boolean, append? :boolean, disableDF? :boolean) :Node[]{
     if(element.parentElement === null) utils.generic.EE("cannot render by '<html>' element, since it's root of document.");
     var html :Node[] = [];
     if(typeof HTML == "string") html = toHTML(HTML);
-    else if(HTML instanceof HTMLElement || HTML instanceof Node) html[0] = HTML.cloneNode(true);
+    else if(HTML instanceof Element || HTML instanceof Node) html[0] = HTML.cloneNode(true);
     else if(HTML instanceof HTMLCollection || HTML instanceof NodeList) for(let i = 0; i < HTML.length; i++) html[i] = HTML.item(i)!.cloneNode(true);
     else html = HTML;
     const Rhtml = [...html].reverse(), parent = element.parentElement;
