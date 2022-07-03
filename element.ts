@@ -21,11 +21,6 @@ export function isDescendant(possibleDescendant :Element, possibleParent :Elemen
 export function isInDocument(element :Element) :boolean{
     return isDescendant(element, (e("html") as Node[])[0] as Element);
 }
-/**删除 HTML 文档中因缩进而导致的文本，`\n (数个空格)`。
-*/
-export function removeIndentText(textNode :Text) :void{
-    textNode.textContent = textNode.textContent!.replace(/\n\s+/g, "");
-}
 export function isChild(element :Element, target :Element) :boolean{
     const children = target.childNodes;
     for(let i = 0; i < children.length; i++) if(element === children[i]) return true;
