@@ -45,6 +45,7 @@ export function hatch(element :Element, remove? :boolean) :Node[]{
     if(remove === true) element.remove();
     return children;
 }
+//fixme:这个方法特异性太强了吧，能不能不要放在这里？
 //最终渲染方法，老祖宗求你别出bug
 export function render(HTML :string | Element | HTMLCollection | Element[] | Node | NodeList | Node[], element :Element, insertAfter? :boolean, append? :boolean, disableDF? :boolean) :Node[]{
     if(element.parentElement === null) utils.generic.EE("cannot render by '<html>' element, since it's root of document.");
