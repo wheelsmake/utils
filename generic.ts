@@ -33,7 +33,7 @@ export function constantize(obj :anyObject) :void{
 export function E(argument :string, type? :string, value? :any, reason? :string) :never{
     if(argument === undefined) throw new Error("An error occured.");
     else{
-        console.info(argument, type, value, reason); //为了拿到真正的value，其他类型toString后啥信息都没了
+        console.info("ERROR INFO: argument", argument, ",type", type, ",value", value, ",reason", reason); //为了拿到真正的value，其他类型toString后啥信息都没了
         throw new Error(`Argument '${argument}' ${type ? `should be a(an) ${type}` : "is invalid"}${reason ? `, reason: ${reason}` : ""}${value ? `, got ${value}` : ""}.`);
     }
 }
