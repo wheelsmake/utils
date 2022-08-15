@@ -21,9 +21,9 @@ export function randoma2z029(length :number) :string{ //36
     }
     return s;
 }
-export function precisePop(ele :any, array :any[]) :any[] | null{
+export function precisePop(ele :any, array :any[]) :any | null{
     if(array.indexOf(ele) === -1) return null;
-    return array.splice(array.indexOf(ele), 1);
+    return array.splice(array.indexOf(ele), 1)[0];
 }
 //递归冻结对象
 export function constantize(obj :anyObject) :void{
