@@ -21,7 +21,7 @@ export function randoma2z029(length :number) :string{ //36
     }
     return s;
 }
-export function precisePop(ele :any, array :any[]) :any | null{
+export function precisePop<T>(ele :T, array :any[]) :T | null{
     if(array.indexOf(ele) === -1) return null;
     return array.splice(array.indexOf(ele), 1)[0];
 }
@@ -38,9 +38,10 @@ export function E(argument :string, type? :string, value? :any, reason? :string)
     }
 }
 export function EE(message :any) :never{throw new Error(message);}
-export function repeat(item :any, count :number) :any[]{
-    if(typeof count != "number" || count < 1) utils.generic.E("count", "number smaller than 1", count);
-    var arr :any[] = [];
-    arr[count - 1] = " ";
-    return arr.fill(item, 0, count);
+export function repeat<T>(item :T, count :number) :T[]{
+    if(typeof count != "number" || count < 1) utils.generic.E("count", "integer bigger than 0", count);
+    return Array(count).fill(item, 0, count);
+}
+export function noRepeat<T>(input :T[]) :T[]{
+    return Array.from(new Set(input)); //Set可是连IE11都支持的东西啊
 }
