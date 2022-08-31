@@ -11,28 +11,35 @@ export function e(s :string, scope? :Element | Document) :Node[] | Node{
         if(a.length == 1 && s.match(/^.*#[^\s]*$/)) return a[0];
         else return Array.from(a);
 }
-export function isDescendant(possibleDescendant :Element, possibleParent :Element) :boolean{
-    while(possibleDescendant.tagName != "HTML"){
+/**@deprecated use `Node.contains` instead.*/
+export function isDescendant(possibleDescendant :Node, possibleParent :Node) :boolean{
+    return possibleParent.contains(possibleDescendant);
+    /*while(
+        possibleDescendant instanceof Text
+     || (possibleDescendant instanceof Element && possibleDescendant.tagName != "HTML")
+    ){
         possibleDescendant = possibleDescendant.parentNode! as Element;
         if(possibleDescendant === possibleParent) return true; 
     }
-    return false;
+    return false;*/
 }
-export function isInDocument(element :Element) :boolean{
-    return isDescendant(element, (e("html") as Node[])[0] as Element);
+export function isInDocument(node :Node) :boolean{
+    return ((e("html") as Node[])[0]).contains(node);
+    //return isDescendant(element, (e("html") as Node[])[0] as Element);
 }
-export function isChild(element :Element, target :Element) :boolean{
-    const children = target.childNodes;
+export function isChild(node :Node, target :Element) :boolean{
+    return Array.from(target.childNodes).indexOf(node as ChildNode) != -1;
+    /*const children = target.childNodes;
     for(let i = 0; i < children.length; i++) if(element === children[i]) return true;
-    return false;
+    return false;*/
 }
 export function toHTML(HTML :string) :Node[]{
     if(HTML === "" || typeof HTML != "string") utils.generic.E("HTML", "string", HTML);
     const ele = document.createElement("div");
     ele.innerHTML = HTML;
-    return getInnerNodes(ele);
+    return getInnerNodesClone(ele);
 }
-export function getInnerNodes(el :Node | Element) :Node[]{
+export function getInnerNodesClone(el :Node) :Node[]{
     var nodes :Node[] = [];
     for(let i = 0; i < el.childNodes.length; i++) nodes[i] = el.childNodes[i].cloneNode(true);
     return nodes;
@@ -47,7 +54,12 @@ export function hatch(element :Element, remove? :boolean) :Node[]{
 }
 //fixme:这个方法特异性太强了吧，能不能不要放在这里？
 //最终渲染方法，老祖宗求你别出bug
-export function render(HTML :string | Element | HTMLCollection | Element[] | Node | NodeList | Node[], element :Element, insertAfter? :boolean, append? :boolean, disableDF? :boolean) :Node[]{
+export function render(
+    HTML :string | Element | HTMLCollection | Element[] | Node | NodeList | Node[],
+    element :Element,
+    insertAfter? :boolean,
+    append? :boolean
+) :Node[]{
     if(element.parentElement === null) utils.generic.EE("cannot render by '<html>' element, since it's root of document.");
     var html :Node[] = [];
     if(typeof HTML == "string") html = toHTML(HTML);

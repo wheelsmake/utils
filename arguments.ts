@@ -13,3 +13,13 @@ export function reduceToElement(input :Elementy) :Element | void{
     }
     else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a #id selector or an Element");
 }
+/**一定会返回Node，void为报错hack*/
+export function reduceToNode(input :Nody) :Node | void{
+    if(input instanceof Node) return input;
+    else if(typeof input == "string"){
+        const el = utils.element.e(input);
+        if(el instanceof Node) return el;
+        else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a VALID #id selector"); //fixed:现在不会走到new Element()那儿了
+    }
+    else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a #id selector or an Element");
+}
