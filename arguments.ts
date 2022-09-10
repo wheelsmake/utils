@@ -9,7 +9,7 @@ export function reduceToElement(input :Elementy) :Element | void{
     else if(typeof input == "string"){
         const el = utils.element.e(input);
         if(el instanceof Node) return el as Element;
-        else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a VALID #id selector"); //fixed:现在不会走到new Element()那儿了
+        else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a VALID #id selector");
     }
     else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a #id selector or an Element");
 }
@@ -19,7 +19,7 @@ export function reduceToNode(input :Nody) :Node | void{
     else if(typeof input == "string"){
         const el = utils.element.e(input);
         if(el instanceof Node) return el;
-        else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a VALID #id selector"); //fixed:现在不会走到new Element()那儿了
+        else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a VALID #id selector");
     }
     else utils.generic.E("rootNode", "string | Element", input, "rootNode should be a #id selector or an Element");
 }
