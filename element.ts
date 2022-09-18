@@ -97,7 +97,12 @@ export function render(
           signContent = textContent.replace(/\n\s*/g, ""), //只有\n也要删
           parent = textNode.parentElement as Element; //replace不改动原字符串
     //排除可编辑内容的元素的内容
-    if(parent.tagName == "TEXTAREA" || (parent instanceof HTMLElement && parent.isContentEditable)) return textContent;
+    const des = document.designMode;
+    if(
+        parent.tagName == "TEXTAREA"
+     || (parent instanceof HTMLElement && parent.isContentEditable)
+     || (des == "on" || des == "ON")
+    ) return textContent;
     else{
         if(signContent === ""){ //完全就是垃圾节点
             textNode.remove();
