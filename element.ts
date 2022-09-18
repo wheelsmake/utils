@@ -101,7 +101,7 @@ export function render(
     if(
         parent.tagName == "TEXTAREA"
      || (parent instanceof HTMLElement && parent.isContentEditable)
-     || (des == "on" || des == "ON")
+     || (des == "on" || des == "ON" /*|| des == "inherit"*/) //inherit基本只出现在IE，不管它
     ) return textContent;
     else{
         if(signContent === ""){ //完全就是垃圾节点
