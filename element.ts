@@ -99,7 +99,7 @@ export function render(
     //排除可编辑内容的元素的内容
     const des = document.designMode;
     if(
-        parent.tagName == "TEXTAREA"
+        (parent !== null && parent.tagName == "TEXTAREA")
      || (parent instanceof HTMLElement && parent.isContentEditable)
      || (des == "on" || des == "ON" /*|| des == "inherit"*/) //inherit基本只出现在IE，不管它
     ) return textContent;
